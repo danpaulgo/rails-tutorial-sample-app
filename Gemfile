@@ -17,6 +17,7 @@ gem 'jquery-rails',            '4.1.1'
 gem 'turbolinks',              '5.0.1'
 gem 'jbuilder',                '2.4.1'
 gem 'shotgun'
+gem 'pry'
 
 
 group :development, :test do
