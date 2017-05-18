@@ -4,7 +4,16 @@ daniel:
   name: Daniel Goldberg
   email: danpaulgo@aol.com
   password_digest: <%= User.digest("BayShore61893") %>
+  admin: true
 
-# two:
-#   name: MyString
-#   email: MyString
+michelle:
+  name: Michelle Chu
+  email: michellepadang@gmail.com
+  password_digest: <%= User.digest("password") %>
+
+<% 30.times do |n| %>
+user_<%= n+1 %>:
+  name: <%= "User #{n}" %>
+  email: <%= "user-#{n}@example.com" %>
+  password_digest: <%= User.digest("password") %>
+<% end %>

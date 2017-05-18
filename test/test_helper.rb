@@ -14,6 +14,10 @@ class ActiveSupport::TestCase
     !session[:user_id].nil?
   end
 
+  def logged_in_user
+    User.find_by(id: session[:user_id])
+  end
+
   def login_as(user)
     session[:user_id] = user.id
   end

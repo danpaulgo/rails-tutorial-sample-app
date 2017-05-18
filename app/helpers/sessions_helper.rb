@@ -9,7 +9,8 @@ module SessionsHelper
 
   def login(user, remember_me = 0)
     session[:user_id] = user.id
-    @current_user = user
+    # @current_user = user
+    current_user
     remember_me == '1' ? remember_user_in_cookie(user) : forget_user_from_cookie(user)
   end
 
@@ -45,4 +46,21 @@ module SessionsHelper
     !!current_user
   end
 
+  def current_user?(user)
+    current_user == user
+  end
+
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
 end
+
+
+
+

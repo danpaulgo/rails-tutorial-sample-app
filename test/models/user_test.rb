@@ -67,12 +67,12 @@ class UserTest < ActiveSupport::TestCase
 
   # USER PASSWORD TESTS
 
-  test "email should not be blank" do
+  test "password should not be blank" do
     @user.password = @user.password_confirmation = " "*6
     assert_not @user.valid?
   end
 
-  test "email should have minimum length" do
+  test "password should have minimum length" do
     @user.password = @user.password_confirmation = "a"*5
     assert_not @user.valid?
   end
