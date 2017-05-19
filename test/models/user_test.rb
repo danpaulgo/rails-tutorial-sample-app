@@ -80,7 +80,7 @@ class UserTest < ActiveSupport::TestCase
   # MISC
 
   test "authenticated? should return false when given nil digest" do
-    assert_not @user.authenticated?("test")
+    assert_not @user.authenticated?(:remember, "test")
   end
 
 end

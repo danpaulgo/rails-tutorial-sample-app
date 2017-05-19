@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  # get '/account_activation/:token/edit', to: 'account_activations#edit'
+  resources :account_activations, only: [:edit]
+
   # get 'sessions/new' # to: sessions#new
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'

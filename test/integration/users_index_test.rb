@@ -5,6 +5,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
   def setup
     @admin = users(:daniel)
     @non_admin = users(:michelle)
+    @inactive_user = users(:john)
   end
 
   test "index as admin" do
@@ -26,6 +27,13 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     login_as @non_admin
     get users_path
     assert_select 'a', text: 'Delete User', count: 0
+  end
+
+  test "redirects when attempting to view inactive user profile" do
+    login_as @admin
+    get user_path(@inactive_user)
+    assert_redirected_to root_path
+    assert_not flash.empty?
   end
 
 end

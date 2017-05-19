@@ -11,7 +11,7 @@ module SessionsHelper
     session[:user_id] = user.id
     # @current_user = user
     current_user
-    remember_me == '1' ? remember_user_in_cookie(user) : forget_user_from_cookie(user)
+    remember_me == '1' ? remember_user_in_cookie(user) : forget_user_from_cookie(user)      
   end
 
   # Deletes digest from database AND clears user_id and remember_token from cookie
@@ -35,7 +35,7 @@ module SessionsHelper
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
       # If a user is found AND the cookies remember_token (if exists) matches the unhashed remember_digest of "user", then the current_user will be set
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         session[:user_id] = user.id
         @current_user ||= user
       end

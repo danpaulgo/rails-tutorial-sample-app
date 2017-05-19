@@ -1,0 +1,7 @@
+Hello, <%= @user.name %>
+
+Welcome to the Sample App! Click the link below to activate your account:
+
+<!-- Will include activation token within path (params[:id]) and email as a key/value pair following the '?' in the URL (params[:email]) -->
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
+

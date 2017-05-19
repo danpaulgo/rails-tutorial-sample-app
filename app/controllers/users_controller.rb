@@ -5,11 +5,15 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: [:destroy]
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 20).order("name ASC")
+    @users = User.where(activated: true).paginate(page: params[:page], per_page: 20).order("name ASC")
   end
 
   def show
     @user = User.find(params[:id])
+    if !@user.activated
+      flash[:warning] = "User is not yet active"
+      redirect_to root_path
+    end
   end
 
   def new
@@ -19,10 +23,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      login(@user)
-      flash[:success] = "User successfully created"
-      redirect_to @user
-      # EQUAL TO `redirect_to user_url(@user)`
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "Please check your email for a link to activate your account"
+      redirect_to root_path
     else
       render 'new'
     end
