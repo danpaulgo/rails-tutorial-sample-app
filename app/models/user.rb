@@ -8,6 +8,8 @@ class User < ApplicationRecord
   #   self.email.downcase!
   # end
 
+  has_many :microposts, dependent: :destroy
+
   validates :name, presence: true, length: {minimum: 2, maximum: 50}
 
   email_regex = /\A[\w+\-.]+@[a-zA-Z\d\-]+(\.[a-z\d\-]+)*\.[a-zA-Z]+\z/
@@ -57,6 +59,11 @@ class User < ApplicationRecord
 
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def feed
+    Micropost.where("user_id = ?", id)
+    # self.microposts
   end
 
   private

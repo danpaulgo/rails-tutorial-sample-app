@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page], per_page: 10)
     if !@user.activated
       flash[:warning] = "User is not yet active"
       redirect_to root_path
@@ -53,27 +54,12 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
-
-    # BEFORE FILTERS
-
-    # Confirms logged-in user
-    def logged_in_user
-      if !logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_path
-      end
-    end
-
     def correct_user
       redirect_to root_path unless current_user?(User.find(params[:id]))
     end
 
-    def admin_user
-      redirect_to root_path unless current_user.admin?
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
 end

@@ -14,3 +14,8 @@ User.create!(name: "Daniel Goldberg", email: "danpaulgo@aol.com", password: "Bay
   password = "password"
   User.create!(name: name, email: email, password: password, password_confirmation: password, activated: true, activated_at: Time.zone.now)
 end
+
+users = User.order(:created_at).take(6)
+50.times do 
+  users.each{|u| u.microposts.create!(content: Faker::ChuckNorris.fact[0..139])}
+end

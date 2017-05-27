@@ -3,7 +3,8 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   
   def setup
-    @user = User.new(name:"Example User", email: "user@example.com", password:"bayshore618", password_confirmation:"bayshore618")
+    @user = users(:daniel)
+    @micropost = @user.microposts.create(content: "Lorem ipsum")
   end
 
   test "should be valid" do
@@ -75,6 +76,15 @@ class UserTest < ActiveSupport::TestCase
   test "password should have minimum length" do
     @user.password = @user.password_confirmation = "a"*5
     assert_not @user.valid?
+  end
+
+  # USER MICROPOST TESTS
+
+  test "associated microposts should be destroyed" do
+    n = @user.microposts.count
+    assert_difference 'Micropost.count', -n do
+      @user.destroy
+    end
   end
 
   # MISC

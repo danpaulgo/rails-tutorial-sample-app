@@ -14,7 +14,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_template 'users/index'
     assert_select 'div.pagination'
     # WHY WONT THIS WORK???
-    # User.all.order("name ASC")[0..19].each do |user|
+    # User.order(:name)[0..19].each do |user|
     #   assert_select 'a[href=?]', users_path(user), text: user.name
     #   unless user == @admin
     #     assert_select 'a[href=?]', users_path(user), text: 'Delete User'

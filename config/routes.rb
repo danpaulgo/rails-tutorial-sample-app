@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
   get 'signup', to: 'users#new'
 
+  resources :microposts, only: [:create, :edit, :update, :destroy]
+
   root 'static_pages#home'
   get 'home', to: 'static_pages#home'
   get 'about', to: 'static_pages#about'
