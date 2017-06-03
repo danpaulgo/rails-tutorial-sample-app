@@ -6,9 +6,11 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:daniel)
+    @user_two = users(:michelle)
   end
 
   test "profile display" do
+    login_as(@user)
     get user_path(@user)
     assert_template 'users/show'
     assert_select 'title', full_title(@user.name)
@@ -19,6 +21,11 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     @user.microposts.order(:created_at)[0..9].each do |mp|
       assert_match mp.content, response.body
     end
+    @user.reload
+    get root_path
+    assert_select 'section.stats'
+    assert_match @user.following.count.to_s, response.body
+    assert_match @user.followers.count.to_s, response.body
   end
 
 end

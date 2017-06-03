@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_action :logged_in_user, only: [:edit, :update, :index, :destroy]
+  before_action :logged_in_user, only: [:edit, :update, :index, :destroy, :followers, :following]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: [:destroy]
 
@@ -47,9 +47,26 @@ class UsersController < ApplicationController
   end
 
   def destroy
-      User.find_by(id: params[:id]).destroy
-      flash[:success] = "User successfully deleted"
-      redirect_to users_path
+    User.find_by(id: params[:id]).destroy
+    flash[:success] = "User successfully deleted"
+    redirect_to users_path
+    render 'follows'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find_by(id: params[:id])
+    @items_per_page = 20
+    @users = @user.followers.paginate(page: params[:page], per_page: @items_per_page) if @user
+    render 'follows'
+  end
+
+  def following
+    @title = "Following"
+    @user = User.find_by(id: params[:id])
+    @items_per_page = 20
+    @users = @user.following.paginate(page: params[:page], per_page: @items_per_page) if @user
+    render 'follows'
   end
 
   private

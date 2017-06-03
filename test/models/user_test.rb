@@ -4,6 +4,8 @@ class UserTest < ActiveSupport::TestCase
   
   def setup
     @user = users(:daniel)
+    @user_two = users(:michelle)
+    @user_three = users(:user_3)
     @micropost = @user.microposts.create(content: "Lorem ipsum")
   end
 
@@ -91,6 +93,28 @@ class UserTest < ActiveSupport::TestCase
 
   test "authenticated? should return false when given nil digest" do
     assert_not @user.authenticated?(:remember, "test")
+  end
+
+  test "should be able to follow and unfollow other users" do
+    assert @user.following?(@user_two)
+    @user.unfollow(@user_two)
+    assert_not @user.reload.following?(@user_two)
+    assert_not @user_two.reload.followers.include?(@user)
+    @user.follow(@user_two)
+    assert @user.reload.following?(@user_two)
+    assert@user_two.reload.followers.include?(@user)
+  end
+
+  test "feed should have right posts" do
+    @user_two.microposts.each do |mp|
+      assert @user.feed.include?(mp)
+    end
+    @user.microposts.each do |mp|
+      assert @user.feed.include?(mp)
+    end
+    @user_three.microposts.each do |mp|
+      assert_not @user.feed.include?(mp)
+    end
   end
 
 end

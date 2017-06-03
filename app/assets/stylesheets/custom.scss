@@ -1,51 +1,52 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-/* MIXINS & VARIABLES */
+/* mixins, variables, etc. */
 
-@mixin box_sizing{
-  -moz-box-sizing: border-box;
+$gray-medium-light: #eaeaea;
+
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+  box-sizing:         border-box;
 }
 
-/* UNIVERSAL */
+/* universal */
 
-body{
+body {
   padding-top: 60px;
 }
 
-section{
+section {
   overflow: auto;
 }
 
-textarea{
+textarea {
   resize: vertical;
 }
 
-.center{
+.center {
   text-align: center;
-  h1{
-    margin-bottom:10px;
+  h1 {
+    margin-bottom: 60px;
   }
 }
 
 
+/* typography */
 
-/* TYPOGRAPHY */
-
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
 
-h1{
+h1 {
   font-size: 3em;
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
 }
 
-h2, h4{
+h2 {
   font-size: 1.2em;
   letter-spacing: -1px;
   margin-bottom: 30px;
@@ -54,76 +55,83 @@ h2, h4{
   color: $gray-light;
 }
 
-p{
+p {
   font-size: 1.1em;
   line-height: 1.7em;
 }
 
-/* HEADER */
+/* header */
 
-#logo{
+#logo {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: #fff;
+  color: white;
   text-transform: uppercase;
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
-  &:hover{
-    color: #fff;
+  &:hover {
+    color: white;
     text-decoration: none;
   }
 }
 
+/* footer */
 
-
-/* FOOTER */
-
-footer{
-  margin-top:45px;
-  padding-top:5px;
-  border-top:1px solid #eaeaea;
-  color:$gray-light;
-  a{
-    color:#555;
-    &:hover{
-      color:#222;
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid $gray-medium-light;
+  color: $gray-light;
+  a {
+    color: $gray;
+    &:hover {
+      color: $gray-darker;
     }
   }
-  small{
+  small {
     float: left;
   }
-  ul{
-    list-style: none;
+  ul {
     float: right;
-    list_style: none;
-    li{
-      float:left;
-      margin-left:15px
+    list-style: none;
+    li {
+      float: left;
+      margin-left: 15px;
     }
   }
 }
 
-/* SIDEBAR */
+/* miscellaneous */
 
-aside{
-  section.user_info{
-  margin-top: 20px;
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+
+/* sidebar */
+
+aside {
+  section.user_info {
+    margin-top: 20px;
   }
-  section{
+  section {
     padding: 10px 0;
     margin-top: 20px;
-    &:first-child{
+    &:first-child {
       border: 0;
       padding-top: 0;
     }
-    span{
+    span {
       display: block;
       margin-bottom: 3px;
       line-height: 1;
     }
-    h1{
+    h1 {
       font-size: 1.4em;
       text-align: left;
       letter-spacing: -1px;
@@ -133,121 +141,149 @@ aside{
   }
 }
 
-gravatar{
+.gravatar {
   float: left;
   margin-right: 10px;
 }
 
-gravatar_edit{
+.gravatar_edit {
   margin-top: 15px;
 }
 
-/* FORMS */
+.stats {
+  overflow: auto;
+  margin-top: 0;
+  padding: 0;
+  a {
+    float: left;
+    padding: 0 10px;
+    border-left: 1px solid $gray-lighter;
+    color: gray;
+    &:first-child {
+      padding-left: 0;
+      border: 0;
+    }
+    &:hover {
+      text-decoration: none;
+      color: blue;
+    }
+  }
+  strong {
+    display: block;
+  }
+}
 
-input, textarea, select, .uneditable-input{
+.user_avatars {
+  overflow: auto;
+  margin-top: 10px;
+  .gravatar {
+    margin: 1px 1px;
+  }
+  a {
+    padding: 0;
+  }
+}
+
+.users.follow {
+  padding: 0;
+}
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
   margin-bottom: 15px;
   @include box_sizing;
 }
 
-input{
+input {
   height: auto !important;
 }
 
-#error_explanation{
-  color:red;
-  ul{
+#error_explanation {
+  color: red;
+  ul {
     color: red;
     margin: 0 0 30px 0;
   }
 }
 
-.field_with_errors{
+.field_with_errors {
   @extend .has-error;
-  .form-control{
+  .form-control {
     color: $state-danger-text;
   }
 }
 
 .checkbox {
-  margin: -10px 0 10px;
-  span{
-  margin-left: 20px;
-  font-weight: normal;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
   }
 }
 
-#session_remember_me{
+#session_remember_me {
   width: auto;
   margin-left: 0;
 }
 
-/* MISC */
-
-.debug_dump{
-  clear: both;
-  float: left;
-  width: 100%;
-  margin-top: 45px;
-  @include box_sizing;
-}
-
-/* USERS INDEX */
-
-.users{
+/* Users index */
+.users {
   list-style: none;
-  margin
-  li{
+  margin: 0;
+  li {
     overflow: auto;
     padding: 10px 0;
     border-bottom: 1px solid $gray-lighter;
   }
 }
 
-/* MICROPOSTS */
+/* microposts */
 
-.microposts{
+.microposts {
   list-style: none;
-  padding: 0
-  li{
+  padding: 0;
+  li {
     padding: 10px 0;
     border-top: 1px solid #e8e8e8;
   }
-  .user{
-  margin-top: 5em;
-  padding-top: 0;
+  .user {
+    margin-top: 5em;
+    padding-top: 0;
   }
-  .content{
+  .content {
     display: block;
     margin-left: 60px;
-    img{
+    img {
       display: block;
       padding: 5px 0;
     }
   }
-  .timestamp{
+  .timestamp {
     color: $gray-light;
     display: block;
     margin-left: 60px;
   }
-  .gravatar{
+  .gravatar {
     float: left;
     margin-right: 10px;
     margin-top: 5px;
   }
 }
 
-aside{
-  textarea{
+aside {
+  textarea {
     height: 100px;
     margin-bottom: 5px;
   }
 }
 
-span.picture{
-  margin-top:10px;
-  input{
+span.picture {
+  margin-top: 10px;
+  input {
     border: 0;
   }
 }

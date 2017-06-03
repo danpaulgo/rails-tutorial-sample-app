@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'relationships/create'
+
+  get 'relationships/destroy'
+
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -13,11 +17,17 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+  # get 'users/1/following', to 'users#following'
   post 'signup', to: 'users#create'
   get 'signup', to: 'users#new'
 
   resources :microposts, only: [:create, :edit, :update, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   root 'static_pages#home'
   get 'home', to: 'static_pages#home'

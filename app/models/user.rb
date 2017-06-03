@@ -9,6 +9,18 @@ class User < ApplicationRecord
   # end
 
   has_many :microposts, dependent: :destroy
+  # Since there is no "user_id" column, we must set the foreign key to "follower_id" since that is the column used to represent this user
+  has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  # Each column where this user is represented by the "follower_id", the user whos id corresponds to "followed_id" will be added to the users "following" collection
+  has_many :following, through: :active_relationships, source: :followed
+  # To create a followers collection, we reverse the above two methods as follows
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :followers, through: :passive_relationships
+  # source: :follower_id is not necessary. Since the collection is names "followers", active_record will automatically user the column "follower_id" to join the users table. The association between follower_id and users is defined in the relationship model 
+
+  # FOLLOWERS
+  # SELECT follower_id FROM relationships
+  # WHERE followed_id = self.id
 
   validates :name, presence: true, length: {minimum: 2, maximum: 50}
 
@@ -62,8 +74,25 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.where("user_id = ?", id)
-    # self.microposts
+    following_ids = "SELECT followed_id FROM relationships WHERE follower_id = :user_id"
+    sql = "user_id IN (#{following_ids}) OR user_id= :user_id"
+    Micropost.where(sql, user_id: id)
+    # self.microposts does not work since array must be returned in the form of ActiveRecord object for paginate to work properly
+  end
+
+  def following?(user)
+    self.following.include?(user)
+  end
+
+  def follow(user)
+    Relationship.create!(follower_id: id, followed_id: user.id) if !self.following?(user)
+    # self.active_relationships.create(followed_id: user.id)
+  end
+
+  def unfollow(user)
+    relationship = Relationship.find_by(follower_id: id, followed_id: user.id)
+    # relationship = self.active_relationships.find_by(followed_id: user.id)
+    relationship.destroy if relationship
   end
 
   private

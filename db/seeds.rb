@@ -19,3 +19,11 @@ users = User.order(:created_at).take(6)
 50.times do 
   users.each{|u| u.microposts.create!(content: Faker::ChuckNorris.fact[0..139])}
 end
+
+# Relationship seeds
+users = User.all
+user = User.first
+following = users[2..40]
+followers = users[10..50]
+following.each{|f| user.follow(f)}
+followers.each{|f| f.follow(user)}
