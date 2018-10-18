@@ -44,4 +44,12 @@ class FollowingTest < ActionDispatch::IntegrationTest
   # end
   # XHR: TRUE IS THE ONLY DIFFERENCE
 
+  test "feed on Home page" do
+    get root_path
+    @user.feed.paginate(page:1, per_page: 15).each do |mp|
+      assert_match CGI.escapeHTML(mp.content), response.body
+      # CGI.escapeHTML is necessary since response.body comes in HTML form
+    end
+  end
+
 end
